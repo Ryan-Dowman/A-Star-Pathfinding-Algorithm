@@ -3,12 +3,14 @@ window.onload = Init;
 
 // Constant Values
 const tableContainer = document.getElementById("tableContainer");
-const tableSideLength = 30;
+const tableSideLength = 15;
 
 const startPosition = [0, 0];
 const finishPosition = [tableSideLength - 1, tableSideLength - 1];
 
 const pathingArray = [];
+
+let currentTimeout = null;
 
 function GenerateTable(){
     const table = document.createElement("table");
@@ -43,12 +45,10 @@ function GenerateTable(){
     }
 
     tableContainer.appendChild(table);
-    console.log(pathingArray);
 }
 
 function Init(){
     GenerateTable(tableSideLength);
-    StartPathfinding();
 }
 
 // Event Listeners
@@ -59,7 +59,7 @@ document.addEventListener("mouseup", () => allowDrawing = false);
 
 function DrawWall(x, y){
     document.getElementById(`${x} ${y}`).classList.toggle("wall");
-    pathingArray[y][x].obstructed = !pathingArray[y][x].obstructed;
+    pathingArray[x][y].obstructed = !pathingArray[x][y].obstructed;
 }
 
 // A* Function
@@ -71,42 +71,61 @@ function StartPathfinding(){
 
 function AStarIteration(openSet, closedSet){    
     
-    // Sort by asecnding values for f
+    // Sort by asecnding values for f so the most viable nodes are in front
     openSet.sort((a,b)=> a.f - b.f)
 
     if(openSet.length === 0){
         console.log("No possible routes");
+        //Signal no routes
         return;
     }
 
-    let current = openSet[0]; // Set current to optimal option
-    openSet.shift(); // Remove current from openset
-    closedSet.push(current); // Move current to close set
+    // Grab most viable node based on f value
+    let current = openSet[0];
+    
+    // Remove node from open set
+    openSet.shift(); 
 
-    // Draw line
+    // Add node to closed set
+    closedSet.push(current);
+
+    // Color all closed areas as white
     for(let index = 0; index < closedSet.length; index++){
-        document.getElementById(`${closedSet[index].x} ${closedSet[index].y}`).style.backgroundColor = "blue";
+        document.getElementById(`${closedSet[index].x} ${closedSet[index].y}`).classList.remove("path");
+        document.getElementById(`${closedSet[index].x} ${closedSet[index].y}`).classList.add("closed");
     }
 
     // Front node colored
-    document.getElementById(`${current.x} ${current.y}`).style.backgroundColor = "#00FF19";
+    document.getElementById(`${current.x} ${current.y}`).classList.add("path");
     
-    tempCurrent = current;
+    // Store current node in a temp value so we can loop its parents
+    let tempCurrent = current;
 
-    // Color previous???
+    // Backtrack through all parents and color them to show the current path
     while(tempCurrent.parent !== undefined){
-            document.getElementById(`${tempCurrent.parent.x} ${tempCurrent.parent.y}`).style.backgroundColor = "#00FF19";
-            tempCurrent = tempCurrent.parent
+        document.getElementById(`${tempCurrent.parent.x} ${tempCurrent.parent.y}`).className = document.getElementById(`${tempCurrent.parent.x} ${tempCurrent.parent.y}`).classList.contains("start") ? "start" : "";
+        document.getElementById(`${tempCurrent.parent.x} ${tempCurrent.parent.y}`).classList.add("path");
+
+        let angle = tempCurrent.x > tempCurrent.parent.x && tempCurrent.y > tempCurrent.parent.y ? 225 
+           : tempCurrent.x < tempCurrent.parent.x && tempCurrent.y < tempCurrent.parent.y ? 45
+           : tempCurrent.x === tempCurrent.parent.x && tempCurrent.y > tempCurrent.parent.y ? 90
+           : tempCurrent.x > tempCurrent.parent.x && tempCurrent.y === tempCurrent.parent.y ? 180
+           : tempCurrent.x < tempCurrent.parent.x && tempCurrent.y === tempCurrent.parent.y ? 0
+           : tempCurrent.x === tempCurrent.parent.x && tempCurrent.y < tempCurrent.parent.y ? 270
+           : null;
+
+        
+        document.getElementById(`${tempCurrent.parent.x} ${tempCurrent.parent.y}`).classList.add(`r${angle}`);
+
+        tempCurrent = tempCurrent.parent;
     }
 
+    // Color all nodes in open set
     openSet.forEach((element)=>{
-        document.getElementById(`${element.x} ${element.y}`).style.backgroundColor = "red";
+        document.getElementById(`${element.x} ${element.y}`).classList.add("open");
     });
 
-    document.getElementById(`${startPosition[0]} ${startPosition[1]}`).style.backgroundColor = "gold";
-    document.getElementById(`${finishPosition[0]} ${finishPosition[1]}`).style.backgroundColor = "purple";
-
-    // Found end point
+    // Check if end point is found
     if(current.x === finishPosition[0] && current.y === finishPosition[1] ){
         return;
     }
@@ -118,7 +137,7 @@ function AStarIteration(openSet, closedSet){
     for(let index = 0; index < neighborNodes.length; index++){
 
         // Ignore if in closed set or is a wall
-        if(neighborNodes[index].obstructed === true || closedSet.includes(neighborNodes[index])){
+        if(neighborNodes[index].obstructed == true || closedSet.includes(neighborNodes[index])){
             continue;
         }
 
@@ -134,7 +153,7 @@ function AStarIteration(openSet, closedSet){
             }
         }
     }
-    setTimeout(()=>{AStarIteration(openSet, closedSet)}, 100);
+    currentTimeout = setTimeout(()=> AStarIteration(openSet, closedSet), 50);
 
 }
 

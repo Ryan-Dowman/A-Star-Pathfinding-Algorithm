@@ -16,26 +16,82 @@ table{
 
 /* Cell Styles */
 td{
-    width: 25px;
-    height: 25px;
-    border: 2px solid #826F8C;
+    width: 50px;
+    height: 50px;
+    border: 3px solid #826F8C;
     background-color: #ECCAFF;
 }
 
 .start{
-    background-color: #FFAE18;
+    background-color: #FFAE18 !important;
 }
 
 /* Use ::before to add in image on top */
 
 .finish{
-    background-color: #00AC39;
+    background-color: #00AC39 !important;
+}
+
+.finish::before{
+    display: none !important;
+}
+
+.path{
+    background-color: #FDFFCA;
+    position: relative;
+}
+
+.path::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 8.66px solid black;
+}
+
+.path.r45::before{
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.path.r90::before{
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.path.r135::before{
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.path.r180::before{
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.path.r225::before{
+    transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.path.r270::before{
+    transform: translate(-50%, -50%) rotate(270deg);
+}
+
+.path.r315::before{
+    transform: translate(-50%, -50%) rotate(315deg);
 }
 
 .wall{
     background-color: #826F8C;
 }
 
-.seen{
+.open{
+    background-color: #CA92EA;
+}
+
+.closed{
     background-color: white;
 }
