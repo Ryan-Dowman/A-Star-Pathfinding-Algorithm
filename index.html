@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <button onclick="StartPathfinding()">Start</button>
     <div id="tableContainer"></div>
+    <div id="buttonContainer">
+        <img src="playButton.svg" alt="Play" onclick="StartPathfinding()" />
+        <img src="resetButton.svg" alt="Reset" onclick="ResetBoard(false)" />
+        <img src="helpButton.svg" alt="Help" onclick="DislayHelpInfo()"/>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

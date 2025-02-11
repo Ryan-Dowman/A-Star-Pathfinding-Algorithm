@@ -10,6 +10,7 @@ const finishPosition = [tableSideLength - 1, tableSideLength - 1];
 
 const pathingArray = [];
 
+let runInProgess = false;
 let currentTimeout = null;
 
 function GenerateTable(){
@@ -64,6 +65,11 @@ function DrawWall(x, y){
 
 // A* Function
 function StartPathfinding(){
+    
+    // Guard clause to stop running multiple runs at the same time
+    if(runInProgess) return;
+    runInProgess = true;
+
     let openSet = [pathingArray[startPosition[0]][startPosition[1]]];
     let closedSet = [];
     AStarIteration(openSet, closedSet);
@@ -75,8 +81,16 @@ function AStarIteration(openSet, closedSet){
     openSet.sort((a,b)=> a.f - b.f)
 
     if(openSet.length === 0){
-        console.log("No possible routes");
-        //Signal no routes
+        document.querySelectorAll('.path').forEach(element => element.classList.remove('path'));
+        
+        // Have to draw last closed set
+        for(let index = 0; index < closedSet.length; index++){
+            document.getElementById(`${closedSet[index].x} ${closedSet[index].y}`).classList.remove("path");
+            document.getElementById(`${closedSet[index].x} ${closedSet[index].y}`).classList.add("closed");
+        }
+        alert("No possible routes to objective");
+        runInProgess = false;
+        ResetBoard(true);
         return;
     }
 
@@ -110,7 +124,7 @@ function AStarIteration(openSet, closedSet){
            : tempCurrent.x < tempCurrent.parent.x && tempCurrent.y < tempCurrent.parent.y ? 45
            : tempCurrent.x === tempCurrent.parent.x && tempCurrent.y > tempCurrent.parent.y ? 90
            : tempCurrent.x > tempCurrent.parent.x && tempCurrent.y === tempCurrent.parent.y ? 180
-           : tempCurrent.x < tempCurrent.parent.x && tempCurrent.y === tempCurrent.parent.y ? 0
+           : tempCurrent.x < tempCurrent.parent.x && tempCurrent.y === tempCurrent.parent.y ? 315
            : tempCurrent.x === tempCurrent.parent.x && tempCurrent.y < tempCurrent.parent.y ? 270
            : null;
 
@@ -197,4 +211,40 @@ function CostToMove(point, current){
 // Compute the distance between the current cell and the finish cell (to 2dp)
 function Heuristic(point){
     return Math.round(Math.sqrt((point.x-finishPosition[0])**2+(point.y-finishPosition[1])**2)*10)/10;
+}
+
+// Reset the board either with the walls intact or not
+function ResetBoard(keepWalls){
+    
+    // Stop current run if necessary
+    if(currentTimeout != null){
+        clearTimeout(currentTimeout);
+        runInProgess = false;
+    } 
+        
+    for(let row of pathingArray){
+        for(let cell of row){
+
+            // Reset values of pathing array items
+            cell.parent = undefined;
+            cell.cost = 0;
+            cell.g = 0;
+            cell.f = 0;
+            cell.obstructed = keepWalls ? cell.obstructed : false;
+
+            let cellElement = document.getElementById(`${cell.x} ${cell.y}`);
+
+            // Reset classes
+            cellElement.className = [...cellElement.classList].filter(styleClass => styleClass === 'start' || styleClass == 'finish');
+            if(cell.obstructed) document.getElementById(`${cell.x} ${cell.y}`).classList.add("wall");
+        }
+    }
+}
+
+function DislayHelpInfo(){
+    alert(`This is an implementation of the A* Pathfinding Algorithm.
+        \nTo use this implementation use your mouse to click or drag wall onto the squares to act as obstactles.
+        \nWhen you click play the algorithm will attempt to find the shortest path between the starting square (orange) and the target square (green).
+        \nThe pinkish sqaures represent nodes that are yet to be seen. The purple squares represent nodes that are available to be searched and finally white squares represent nodes that have been completely searched.
+        `);
 }
