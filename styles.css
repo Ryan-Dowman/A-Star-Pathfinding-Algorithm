@@ -58,7 +58,7 @@ td{
     left: 50% !important;
     top: 25% !important;
     transform: translate(-50%, -50%) !important;
-    background-image: url(begin.svg) !important;
+    background-image: url(images/begin.svg) !important;
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
@@ -76,7 +76,7 @@ td{
     left: 50% !important;
     top: 25% !important;
     transform: translate(-50%, -50%) !important;
-    background-image: url(trophy.svg) !important;
+    background-image: url(images/trophy.svg) !important;
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
@@ -96,7 +96,7 @@ td{
     top: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     transform-origin: 50 50;
-    background-image: url(play.svg);
+    background-image: url(images/play.svg);
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
