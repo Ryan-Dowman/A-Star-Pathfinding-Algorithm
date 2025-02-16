@@ -1,3 +1,4 @@
+![Image](https://github.com/user-attachments/assets/016a38f8-fc0e-4ac8-8a98-63d7f130dde6)
 # A Star Pathfinding Algorithm
 ## This project is a simple implementation of the A* Algorithm featuring simple controls and a clean style to showcase the current state pathfinding process as it works away at the process.
 
