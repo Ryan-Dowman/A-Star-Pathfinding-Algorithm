@@ -5,7 +5,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Showcase](#showcase)
-- [Room for Improvements](#room-for-improvements)
+- [Room for Improvement](#room-for-improvement)
 - [Notes](#notes)
 
 ## Introduction
@@ -22,7 +22,7 @@ One of the primary goals of this project was to make the concept of A* digestibl
 
 As seen above another important focus was representing the importance of decision making and showcasing the thought process of the algorithm through color. To do I took inspiration for games often showcase unexplored areas through use of variation in color or brightness. Thus, giving the user, a better understanding of what solutions have been computed or are yet to be computed. Finally, with the completion of the problem it is clear to the audience the efficiency of the algorithm through its ability to leave undesirable paths unexplored and to ultimately showcase its final result.
 
-## Room for Improvements
+## Room for Improvement
 This projected could easily be extended to include more user interaction such as the ability to move start/end points, the ability to change the size of the grid as well as the ability to modify the animation speed. All these changes would be a simple implementaion of either JS's prompt or for a more clean look the use of a HTML input. I ommitted these features in order to prioritse the demostration focus of the project.
 
 ## Notes
