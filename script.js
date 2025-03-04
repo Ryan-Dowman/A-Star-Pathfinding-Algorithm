@@ -55,7 +55,7 @@ function Init(){
 // Event Listeners
 let allowDrawing = false;
 
-document.addEventListener("mousedown", () => allowDrawing = true);
+document.addEventListener("mousedown", () => {if(!runInProgess) allowDrawing = true});
 document.addEventListener("mouseup", () => allowDrawing = false);
 
 function DrawWall(x, y){
