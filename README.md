@@ -1,7 +1,7 @@
 ![Image](https://github.com/user-attachments/assets/b9fb1a3b-9f75-421b-82f2-6fad52f2ed73)
 
 # A* Pathfinding Algorithm
-https://ryan-dowman.github.io/A-Star-Pathfinding-Algorithm/
+**Live Version:** https://ryan-dowman.github.io/A-Star-Pathfinding-Algorithm/
 
 ## Table of Contents
 - [Introduction](#introduction)
