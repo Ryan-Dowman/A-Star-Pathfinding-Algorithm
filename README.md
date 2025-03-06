@@ -31,7 +31,8 @@ Finally, upon completing the problem, it becomes evident how efficient the algor
 This project could easily be extended to include more user interaction, such as:
 - The ability to move start/end points
 - The ability to change the size of the grid
-- The ability to modify the animation speed  
+- The ability to modify the animation speed
+- Maybe the ability to utilise Dijkstra's algorithm
 
 All these changes would be simple implementations using JavaScript’s `prompt` or, for a cleaner look, HTML inputs. I omitted these features to prioritize the demonstration focus of the project.
 
